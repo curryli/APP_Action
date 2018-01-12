@@ -15,8 +15,18 @@ public class SystemUtil {
     public static void regSensorListner(Context context, SensorEventListener sensorListener) {
         /*获取系统服务（SENSOR_SERVICE）返回一个SensorManager对象*/
         SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
+
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);
         sensorManager.registerListener(sensorListener, sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+        //方向
+        Sensor ori_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        sensorManager.registerListener(sensorListener, ori_sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+
+        //陀螺仪
+        Sensor gry_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensorManager.registerListener(sensorListener, gry_sensor
                 , SensorManager.SENSOR_DELAY_FASTEST);
     }
 
@@ -25,6 +35,14 @@ public class SystemUtil {
         SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);
         sensorManager.unregisterListener(sensorListener, sensor);
+
+        //方向
+        Sensor ori_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        sensorManager.unregisterListener(sensorListener, ori_sensor);
+
+        //陀螺仪
+        Sensor gry_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensorManager.unregisterListener(sensorListener, gry_sensor);
     }
 
     /**
