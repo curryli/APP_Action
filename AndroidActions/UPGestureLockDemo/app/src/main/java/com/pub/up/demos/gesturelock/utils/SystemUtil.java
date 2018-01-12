@@ -12,20 +12,18 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class SystemUtil {
 
-    public static void regPressureSensorListner(Context context, SensorEventListener sensorListener) {
+    public static void regSensorListner(Context context, SensorEventListener sensorListener) {
         /*获取系统服务（SENSOR_SERVICE）返回一个SensorManager对象*/
         SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
-        /*通过SensorManager获取相应的（压力传感器）Sensor类型对象*/
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);
         sensorManager.registerListener(sensorListener, sensor
                 , SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-    public static void unregPressureSensorListner(Context context, SensorEventListener sensorListener) {
+    public static void unregSensorListner(Context context, SensorEventListener sensorListener) {
         /*获取系统服务（SENSOR_SERVICE）返回一个SensorManager对象*/
         SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
-        /*通过SensorManager获取相应的（压力传感器）Sensor类型对象*/
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);
         sensorManager.unregisterListener(sensorListener, sensor);
     }
 

@@ -1,5 +1,6 @@
 package com.pub.gesturelibrary.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -15,14 +16,20 @@ import android.view.View;
 
 import com.pub.gesturelibrary.R;
 import com.pub.gesturelibrary.crypto.Base64;
+import com.pub.gesturelibrary.db.GesturePathManager;
 import com.pub.gesturelibrary.entity.Point;
 import com.pub.gesturelibrary.enums.LockMode;
 import com.pub.gesturelibrary.util.ConfigUtil;
 import com.pub.gesturelibrary.util.LockUtil;
+import com.pub.gesturelibrary.util.LogToFileUtil;
 import com.pub.gesturelibrary.util.MathUtil;
 import com.pub.gesturelibrary.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +39,8 @@ import java.util.TimerTask;
  * 手势解锁
  */
 public class CustomLockView extends View {
+
+    private Context mContext;
     //保存密码key
     private String saveLockKey = "saveLockKey";
     //是否保存保存PIN
@@ -128,8 +137,11 @@ public class CustomLockView extends View {
 
     public CustomLockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.GestureLock_styleable, defStyleAttr, 0);
+        mContext = context;
+        LogToFileUtil.init(context);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable
+                .GestureLock_styleable, defStyleAttr, 0);
         int n = a.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
@@ -197,15 +209,15 @@ public class CustomLockView extends View {
         isCache = true;
 
         // TODO mark the 9 point x,y
-        Log.e("gesture-path", "mPoints[0][0]=" +mPoints[0][0].x+","+mPoints[0][0].y);
-        Log.e("gesture-path", "mPoints[0][1]=" +mPoints[0][1].x+","+mPoints[0][1].y);
-        Log.e("gesture-path", "mPoints[0][2]=" +mPoints[0][2].x+","+mPoints[0][2].y);
-        Log.e("gesture-path", "mPoints[1][0]=" +mPoints[1][0].x+","+mPoints[1][0].y);
-        Log.e("gesture-path", "mPoints[1][1]=" +mPoints[1][1].x+","+mPoints[1][1].y);
-        Log.e("gesture-path", "mPoints[1][2]=" +mPoints[1][2].x+","+mPoints[1][2].y);
-        Log.e("gesture-path", "mPoints[2][0]=" +mPoints[2][0].x+","+mPoints[2][0].y);
-        Log.e("gesture-path", "mPoints[2][1]=" +mPoints[2][1].x+","+mPoints[2][1].y);
-        Log.e("gesture-path", "mPoints[2][2]=" +mPoints[2][2].x+","+mPoints[2][2].y);
+        Log.e("gesture-path", "mPoints[0][0]=" + mPoints[0][0].x + "," + mPoints[0][0].y);
+        Log.e("gesture-path", "mPoints[0][1]=" + mPoints[0][1].x + "," + mPoints[0][1].y);
+        Log.e("gesture-path", "mPoints[0][2]=" + mPoints[0][2].x + "," + mPoints[0][2].y);
+        Log.e("gesture-path", "mPoints[1][0]=" + mPoints[1][0].x + "," + mPoints[1][0].y);
+        Log.e("gesture-path", "mPoints[1][1]=" + mPoints[1][1].x + "," + mPoints[1][1].y);
+        Log.e("gesture-path", "mPoints[1][2]=" + mPoints[1][2].x + "," + mPoints[1][2].y);
+        Log.e("gesture-path", "mPoints[2][0]=" + mPoints[2][0].x + "," + mPoints[2][0].y);
+        Log.e("gesture-path", "mPoints[2][1]=" + mPoints[2][1].x + "," + mPoints[2][1].y);
+        Log.e("gesture-path", "mPoints[2][2]=" + mPoints[2][2].x + "," + mPoints[2][2].y);
     }
 
 
@@ -266,7 +278,8 @@ public class CustomLockView extends View {
      * @param canvas
      */
     private void drawToCanvas(Canvas canvas) {
-        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint
+                .FILTER_BITMAP_FLAG));
         mPaint.setAntiAlias(true);
         mPaint.setFilterBitmap(true);
         // 画连线
@@ -426,6 +439,11 @@ public class CustomLockView extends View {
         canvas.drawCircle(p.x, p.y, mInnerBackgroudRadius, mPaint);
     }
 
+    private int logTimes = 1;
+    private boolean isOnTouching = false;
+    public boolean isOnTouching(){
+        return isOnTouching;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -436,12 +454,19 @@ public class CustomLockView extends View {
         isCorrect = true;
         handler.removeCallbacks(run);
         movingNoPoint = false;
+        isOnTouching = true;
         float ex = event.getX();
         float ey = event.getY();
         float pressure = event.getPressure();
         float size = event.getSize();
         // TODO mark the x,y,pressure
-        Log.e("gesture-path", "x,y=" + ex +"," + ey + ", pressure=" + pressure + ",size=" + size);
+        Log.e("gesture-path", "x,y=" + ex + "," + ey + ", pressure=" + pressure + ",size=" + size);
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+        //saveData(1, ex, ey, pressure, size, df.format(new Date()));
+        //LogToFileUtil.e("gesture-path", "logTimes="+logTimes+", " + df.format(new Date())+"
+        // "+"x,y=" + ex + "," + ey + ", pressure=" + pressure + ",size=" + size);
+        LogToFileUtil.e("gesture-path", logTimes + "," + ex + "," + ey + "," + pressure + "," +
+                size + "," + df.format(new Date()));
         boolean isFinish = false;
         Point p = null;
         switch (event.getAction()) {
@@ -476,6 +501,8 @@ public class CustomLockView extends View {
         }
         if (isFinish) {
             actionFinish();
+            logTimes++;
+            isOnTouching = false;
         }
         postInvalidate();
         return true;
@@ -490,8 +517,7 @@ public class CustomLockView extends View {
             this.reset();
             return;
         }
-        if (this.sPoints.size() < passwordMinLength
-                && this.sPoints.size() > 0) {
+        if (this.sPoints.size() < passwordMinLength && this.sPoints.size() > 0) {
             // clearPassword(CLEAR_TIME);
             error();
             if (mCompleteListener != null) {
@@ -678,12 +704,11 @@ public class CustomLockView extends View {
     private void drawArrow(Canvas canvas, Point a, int color) {
         // 绘制三角形，初始时是个默认箭头朝上的一个等腰三角形，用户绘制结束后，根据由两个GestureLockView决定需要旋转多少度
         Path mArrowPath = new Path();
-        float offset = mInnerBackgroudRadius + (mArrowLength + mRadius - mInnerBackgroudRadius) / 2;//偏移量,定位三角形位置
+        float offset = mInnerBackgroudRadius + (mArrowLength + mRadius - mInnerBackgroudRadius) /
+                2;//偏移量,定位三角形位置
         mArrowPath.moveTo(a.x, a.y - offset);
-        mArrowPath.lineTo(a.x - mArrowLength, a.y - offset
-                + mArrowLength);
-        mArrowPath.lineTo(a.x + mArrowLength, a.y - offset
-                + mArrowLength);
+        mArrowPath.lineTo(a.x - mArrowLength, a.y - offset + mArrowLength);
+        mArrowPath.lineTo(a.x + mArrowLength, a.y - offset + mArrowLength);
         mArrowPath.close();
         mArrowPath.setFillType(Path.FillType.WINDING);
         mPaint.setStyle(Paint.Style.FILL);
@@ -953,4 +978,12 @@ public class CustomLockView extends View {
     public void setClearPasssword(boolean clearPasssword) {
         isClearPasssword = clearPasssword;
     }
+
+    //TODO save data
+    private void saveData(final int times, final double ex, final double ey, final double
+            pressure, final double size, final String time) {
+        GesturePathManager.getInstance().saveGesturePath(mContext, times, ex, ey, pressure, size,
+                time);
+    }
+
 }

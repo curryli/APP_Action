@@ -7,11 +7,15 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.pub.gesturelibrary.enums.LockMode;
+import com.pub.gesturelibrary.util.LogToFileUtil;
 import com.pub.gesturelibrary.view.CustomLockView;
 import com.pub.up.demos.gesturelock.R;
 import com.pub.up.demos.gesturelock.constants.Constants;
 import com.pub.up.demos.gesturelock.utils.PasswordUtil;
 import com.pub.up.demos.gesturelock.utils.SystemUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 
@@ -76,7 +80,7 @@ public class SecondActivity extends BaseActivity {
 
         // TODO register
         Log.e("gesture-path", "onResume-register regPressureSensorListner");
-        SystemUtil.regPressureSensorListner(this, mSensorEventListener);
+        SystemUtil.regSensorListner(this, mSensorEventListener);
     }
 
     @Override
@@ -85,20 +89,84 @@ public class SecondActivity extends BaseActivity {
 
         // TODO unregister
         Log.e("gesture-path", "onPause-unregister unregPressureSensorListner");
-        SystemUtil.unregPressureSensorListner(this, mSensorEventListener);
+        SystemUtil.unregSensorListner(this, mSensorEventListener);
     }
 
     /*声明一个SensorEventListener对象用于侦听Sensor事件，并重载onSensorChanged方法*/
     private final SensorEventListener mSensorEventListener = new SensorEventListener() {
+        private static final float NS2S = 1.0f / 1000000000.0f;
+        private float timestamp;
+        private float angle[] = new float[3];
+
+
         @Override
         public void onSensorChanged(SensorEvent event) {
+            //保证只要在滑屏阶段才采集传感器数据
+            if(!lvLock.isOnTouching()){
+                return;
+            }
+            //保证只要在滑屏阶段才采集传感器数据
+
+
             if (event.sensor.getType() == Sensor.TYPE_PRESSURE) {
                 /*压力传感器返回当前的压强，单位是百帕斯卡hectopascal（hPa）。*/
                 float pressure = event.values[0];
-
                 // TODO mark the pressure
-                Log.e("gesture-path", "pressure(hPa)=" + String.valueOf(pressure));
+                Log.e("pressure", "pressure(hPa)=" + String.valueOf(pressure));
             }
+            else if(event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+                //方向传感器
+                float x_ori = event.values[0];
+                float y_ori = event.values[1];
+                float z_ori = event.values[2];
+                Log.e("Orientation", "x,y,z=" + x_ori + "," + y_ori + ", " + z_ori);
+                SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                LogToFileUtil.e("Orientation", x_ori + "," + y_ori + ", " + z_ori + "," + df.format(new Date()));
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                //陀螺仪
+                if (timestamp != 0)
+                {
+                    final float dT = (event.timestamp -timestamp) * NS2S;
+                    // 将手机在各个轴上的旋转角度相加，即可得到当前位置相对于初始位置的旋转弧度
+                    angle[0] += event.values[0] * dT;
+                    angle[1] += event.values[1] * dT;
+                    angle[2] += event.values[2] * dT;
+                    // 将弧度转化为角度
+                    float anglex = (float) Math.toDegrees(angle[0]);
+                    float angley = (float) Math.toDegrees(angle[1]);
+                    float anglez = (float) Math.toDegrees(angle[2]);
+
+                    Log.e("Gyroscope", "x,y,z=" + anglex + "," + angley + ", " + anglez);
+                    SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                    LogToFileUtil.e("Gyroscope", anglex + "," + angley + ", " + anglez + "," + df.format(new Date()));
+                }
+                timestamp = event.timestamp;
+
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+                float x_mag = event.values[0];
+                float y_mag = event.values[1];
+                float z_mag = event.values[2];
+                Log.e("MAGNETIC", "x,y,z=" + x_mag + "," + y_mag + ", " + z_mag);
+                SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                LogToFileUtil.e("MAGNETIC", x_mag + "," + y_mag + ", " + z_mag + "," + df.format(new Date()));
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                //加速度感应器
+                float x_acc = event.values[0];
+                float y_acc = event.values[1];
+                float z_acc = event.values[2];
+                Log.e("Accelerometer", "x,y,z=" + x_acc + "," + y_acc + ", " + z_acc);
+                SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                LogToFileUtil.e("Accelerometer", x_acc + "," + y_acc + ", " + z_acc + "," + df.format(new Date()));
+            }
+            else {
+                Log.e("SensorEvent", "unknown sensor event:" + event.sensor.getType());
+            }
+
+
+
         }
 
         @Override
@@ -106,6 +174,7 @@ public class SecondActivity extends BaseActivity {
             // TODO Auto-generated method stub
         }
     };
+
 
     /**
      * 密码输入模式
