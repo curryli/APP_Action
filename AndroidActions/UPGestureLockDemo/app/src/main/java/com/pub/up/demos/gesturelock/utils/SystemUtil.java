@@ -19,6 +19,37 @@ public class SystemUtil {
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);
         sensorManager.registerListener(sensorListener, sensor
                 , SensorManager.SENSOR_DELAY_FASTEST);
+
+        //加速度
+        Sensor acc_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(sensorListener, acc_sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+
+        //压力
+        Sensor pre_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        sensorManager.registerListener(sensorListener, pre_sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+
+        // 重力
+        Sensor gra_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        sensorManager.registerListener(sensorListener, gra_sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+
+        // 线性加速度
+        Sensor liacc_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        sensorManager.registerListener(sensorListener, liacc_sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+
+        // 磁场
+        Sensor mag_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        sensorManager.registerListener(sensorListener, mag_sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+
+        // 矢量旋转
+        Sensor rot_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        sensorManager.registerListener(sensorListener, rot_sensor
+                , SensorManager.SENSOR_DELAY_FASTEST);
+
         //方向
         Sensor ori_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         sensorManager.registerListener(sensorListener, ori_sensor
@@ -28,6 +59,8 @@ public class SystemUtil {
         Sensor gry_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         sensorManager.registerListener(sensorListener, gry_sensor
                 , SensorManager.SENSOR_DELAY_FASTEST);
+
+
     }
 
     public static void unregSensorListner(Context context, SensorEventListener sensorListener) {
@@ -35,6 +68,32 @@ public class SystemUtil {
         SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);
         sensorManager.unregisterListener(sensorListener, sensor);
+
+        // 矢量旋转
+        Sensor rot_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        sensorManager.unregisterListener(sensorListener, rot_sensor);
+
+
+        // 磁场
+        Sensor mag_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        sensorManager.unregisterListener(sensorListener, mag_sensor);
+
+
+        // 线性加速度
+        Sensor liacc_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        sensorManager.unregisterListener(sensorListener, liacc_sensor);
+
+        // 重力
+        Sensor gra_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        sensorManager.unregisterListener(sensorListener, gra_sensor);
+
+        //压力
+        Sensor pre_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        sensorManager.unregisterListener(sensorListener, pre_sensor);
+
+        //加速度
+        Sensor acc_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.unregisterListener(sensorListener, acc_sensor);
 
         //方向
         Sensor ori_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);

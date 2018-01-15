@@ -11,6 +11,7 @@ from sklearn.grid_search import RandomizedSearchCV
 from sklearn.metrics import confusion_matrix
 from sklearn.utils import shuffle 
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.externals import joblib  
   
 df_All = pd.read_csv("WISDM_FE.csv", sep=',')
 df_All = df_All.fillna(-1)
@@ -37,6 +38,8 @@ pred = clf.predict(X_test)
 cm1=confusion_matrix(y_test,pred)
 print  cm1
 
+
+joblib.dump(clf, "GBDT_trained.m")  
 # [[111   0   2   0   0  15]
 #  [  0 758  35  38  25   0]
 #  [  0  74 125  34  14   1]

@@ -1,5 +1,5 @@
 package com.lxr.passometer;
-
+//http://blog.csdn.net/bin470398393/article/details/78918921
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;

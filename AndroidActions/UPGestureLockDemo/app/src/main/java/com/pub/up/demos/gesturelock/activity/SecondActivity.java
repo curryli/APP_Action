@@ -3,6 +3,7 @@ package com.pub.up.demos.gesturelock.activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -112,16 +113,47 @@ public class SecondActivity extends BaseActivity {
                 /*压力传感器返回当前的压强，单位是百帕斯卡hectopascal（hPa）。*/
                 float pressure = event.values[0];
                 // TODO mark the pressure
-                Log.e("pressure", "pressure(hPa)=" + String.valueOf(pressure));
+                Log.e("Sensors", "pressure(hPa)=" + String.valueOf(pressure));
+                SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                LogToFileUtil.e("pressure", String.valueOf(pressure) + "," + df.format(new Date()));
             }
             else if(event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
                 //方向传感器
                 float x_ori = event.values[0];
                 float y_ori = event.values[1];
                 float z_ori = event.values[2];
-                Log.e("Orientation", "x,y,z=" + x_ori + "," + y_ori + ", " + z_ori);
+                Log.e("Sensors", "Orientation: x,y,z=" + x_ori + "," + y_ori + ", " + z_ori);
                 SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
                 LogToFileUtil.e("Orientation", x_ori + "," + y_ori + ", " + z_ori + "," + df.format(new Date()));
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+                //重力
+                float x_gra = event.values[0];
+                float y_gra = event.values[1];
+                float z_gra = event.values[2];
+                Log.e("Sensors", "GRAVITY: x,y,z=" + x_gra + "," + y_gra + ", " + z_gra);
+                SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                LogToFileUtil.e("GRAVITY", x_gra + "," + y_gra + ", " + z_gra + "," + df.format(new Date()));
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+                //线性加速度
+                float x_liacc = event.values[0];
+                float y_liacc = event.values[1];
+                float z_liacc = event.values[2];
+                Log.e("Sensors", "LINEAR_ACCELERATION: x,y,z=" + x_liacc + "," + y_liacc + "," + z_liacc);
+                SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                LogToFileUtil.e("LINEAR_ACCELERATION", x_liacc + "," + y_liacc + "," + z_liacc + "," + df.format(new Date()));
+            }
+            else if(event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+                //矢量旋转
+                float x_rot = event.values[0];
+                float y_rot = event.values[1];
+                float z_rot = event.values[2];
+                float r_rot = event.values[3];
+
+                Log.e("Sensors", "ROTATION_VECTOR: x,y,z,r=" + x_rot + "," + y_rot + "," + z_rot + "," + r_rot);
+                SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+                LogToFileUtil.e("ROTATION_VECTOR", x_rot + "," + y_rot + "," + z_rot + "," + r_rot + "," + df.format(new Date()));
             }
             else if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
                 //陀螺仪
@@ -137,9 +169,9 @@ public class SecondActivity extends BaseActivity {
                     float angley = (float) Math.toDegrees(angle[1]);
                     float anglez = (float) Math.toDegrees(angle[2]);
 
-                    Log.e("Gyroscope", "x,y,z=" + anglex + "," + angley + ", " + anglez);
+                    Log.e("Sensors", "Gyroscope: x,y,z=" + anglex + "," + angley + "," + anglez);
                     SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
-                    LogToFileUtil.e("Gyroscope", anglex + "," + angley + ", " + anglez + "," + df.format(new Date()));
+                    LogToFileUtil.e("Gyroscope", anglex + "," + angley + "," + anglez + "," + df.format(new Date()));
                 }
                 timestamp = event.timestamp;
 
@@ -148,7 +180,7 @@ public class SecondActivity extends BaseActivity {
                 float x_mag = event.values[0];
                 float y_mag = event.values[1];
                 float z_mag = event.values[2];
-                Log.e("MAGNETIC", "x,y,z=" + x_mag + "," + y_mag + ", " + z_mag);
+                Log.e("Sensors", "MAGNETIC: x,y,z=" + x_mag + "," + y_mag + ", " + z_mag);
                 SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
                 LogToFileUtil.e("MAGNETIC", x_mag + "," + y_mag + ", " + z_mag + "," + df.format(new Date()));
             }
@@ -157,9 +189,9 @@ public class SecondActivity extends BaseActivity {
                 float x_acc = event.values[0];
                 float y_acc = event.values[1];
                 float z_acc = event.values[2];
-                Log.e("Accelerometer", "x,y,z=" + x_acc + "," + y_acc + ", " + z_acc);
+                Log.e("Sensors", "Accelerometer: x,y,z=" + x_acc + "," + y_acc + "," + z_acc);
                 SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
-                LogToFileUtil.e("Accelerometer", x_acc + "," + y_acc + ", " + z_acc + "," + df.format(new Date()));
+                LogToFileUtil.e("Accelerometer", x_acc + "," + y_acc + "," + z_acc + "," + df.format(new Date()));
             }
             else {
                 Log.e("SensorEvent", "unknown sensor event:" + event.sensor.getType());
