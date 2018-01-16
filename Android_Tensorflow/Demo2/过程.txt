@@ -1,0 +1,7 @@
+运行train_TF.py,生成的optimized_tfdroid.pb 拷贝到
+
+TFDroid-master\app\src\main\assets
+文件夹下即可
+
+
+记得包Demo1里面Demo1\TFDroid\app\libs  下面所有的东西拷到Demo2\TFDroid\app\libs下面然后重新编译（这里为了省空间删了）

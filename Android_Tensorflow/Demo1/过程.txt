@@ -1,0 +1,7 @@
+运行TF_savefor_Android.py,
+再运行save_pb.py
+
+生成的optimized_tfdroid.pb 拷贝到
+
+TFDroid-master\app\src\main\assets
+文件夹下即可
