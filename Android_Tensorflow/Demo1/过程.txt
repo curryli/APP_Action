@@ -5,3 +5,19 @@
 
 TFDroid-master\app\src\main\assets
 文件夹下即可
+
+
+
+
+savefor_Android.py 相当于先训练一个一层的DNN 分类器，然后把in out W B所有的参数都保存下来。
+
+save_pb.py干的事是先把in out W B这些参数固化到一个graph里面，叫做frozen_graph（这一步可以省略）
+ 
+进一步的简化方法是只把in out固化到一个graph里面，叫做optimized_graph
+接下来安卓只关心调用optimized_graph就行了
+
+该文件中的   #graph测试  之后的部分是测试上面的optimized_graph 保存是否成功。即加载optimized_graph 看效果，这个效果和最终安卓上的效果类似。
+
+值得注意的是看graph到底保存了些啥可以用这个检查。
+for op in sess.graph.get_operations():  
+	print(op.name,op.values())  
