@@ -1,7 +1,11 @@
 package com.lxr.acc_save;
 //http://blog.csdn.net/bin470398393/article/details/78918921
 
+import android.app.Notification;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +13,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ActionBarContainer;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -51,9 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 获取传感器管理器
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorAccelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sManager.registerListener(this, mSensorAccelerometer, SampleRate.get_RATE_20Hz());
+        sManager.registerListener(this, mSensorAccelerometer, SampleRate.get_RATE_50Hz());
 
-
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);  //屏幕关闭以后，重新注册采集器
+        registerReceiver(mReceiver, filter);
     }
 
     private void bindViews() {
@@ -208,5 +214,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         sManager.unregisterListener(this, mSensorAccelerometer);
+        unregisterReceiver(mReceiver);
     }
+
+    private void refreshListener(){
+        sManager.unregisterListener(this, mSensorAccelerometer);
+        sManager.registerListener(this, mSensorAccelerometer, SampleRate.get_RATE_50Hz());
+    }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)){
+                refreshListener();
+            }
+        }
+    };
+
 }

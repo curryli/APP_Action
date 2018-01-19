@@ -57,7 +57,7 @@ f.write(output_graph_def.SerializeToString())
 
 
 
- 
+#graph测试 
 
 with tf.Graph().as_default():
     output_graph_def = tf.GraphDef()
