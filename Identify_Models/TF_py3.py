@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix, roc_curve, auc
 import tensorflow as tf
 from reshape_seq import Reshape_seq,Reshape_semi_overlap
+from sklearn.preprocessing import StandardScaler
 #from __future__ import division
 
 
@@ -44,6 +45,11 @@ if __name__ == "__main__":
 
     column_names = ['user-id', 'label', 'timestamp', 'x-axis', 'y-axis', 'z-axis']
     df_all = pd.read_csv("data/WISDM_ar_v1.1_modify.txt", header=None, names=column_names)
+    df_all = df_all.fillna(-1)  #loss 出现NAN，先检查原始数据是不是有问题
+
+#    sc = StandardScaler()
+#    df_X = df_all[['x-axis', 'y-axis', 'z-axis']]
+#    df_X = sc.fit_transform(df_X)
 
     df_all['x-axis'] = feature_normalize(df_all['x-axis'])
     df_all['y-axis'] = feature_normalize(df_all['y-axis'])
@@ -54,6 +60,8 @@ if __name__ == "__main__":
     segments, labels = Reshape_seq(df_all,wz)
     print(segments.shape, labels.shape)
     labels = np.asarray(pd.get_dummies(labels), dtype = np.int8)
+    
+    print(labels)
     # 创建输入
     reshaped_segments = segments.reshape(len(segments), 1, wz, 3)
 
@@ -70,7 +78,7 @@ if __name__ == "__main__":
     num_labels = 6  #6类， 输出6维的onehot
     num_channels = 3  # x, y ,z 每个轨迹看做一个1*wz 的图像，一共三个channel
 
-    learning_rate = 1e-6   #如果loss出现NAN，或者accuracy固定在一个很小的位置，很可能上来学习率就设的太大了，导致到不了最小点。   这时候尝试一个量级一个量级地降学习率试试
+    learning_rate = 1e-4   #如果loss出现NAN，或者accuracy固定在一个很小的位置，很可能上来学习率就设的太大了，导致到不了最小点。   这时候尝试一个量级一个量级地降学习率试试
 
 
     total_batchs = reshaped_segments.shape[0]//batch_size
@@ -126,12 +134,15 @@ if __name__ == "__main__":
     w_fc2 = weight_variable([num_out_1, num_labels])   #第二层输出维度与类别数一致
     b_fc2 = bias_variable([num_labels])
 
-    y_ = tf.nn.softmax(tf.matmul(h_fc1_drop, w_fc2) + b_fc2)
-
-
-    loss = -tf.reduce_sum(Y * tf.log(y_))
+    ylogits = tf.matmul(h_fc1_drop, w_fc2) + b_fc2
+    
+ 
+    loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(labels=Y, logits=ylogits))
+     
     optimizer = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
+
+    y_ = tf.nn.softmax(ylogits)
     correct_prediction = tf.equal(tf.argmax(y_,1), tf.argmax(Y,1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
@@ -145,6 +156,6 @@ if __name__ == "__main__":
                 offset = (b * batch_size) % (train_y.shape[0] - batch_size)
                 batch_x = train_x[offset:(offset + batch_size), :, :, :]
                 batch_y = train_y[offset:(offset + batch_size), :]
-                _, c = session.run([optimizer, loss], feed_dict={X: batch_x, Y: batch_y})
-            print("Epoch {}: Training Loss = {}, Training Accuracy = {}".format(
-                epoch, c, session.run(accuracy, feed_dict={X: train_x, Y: train_y})))
+                _, c , a = session.run([optimizer, loss,ylogits], feed_dict={X: batch_x, Y: batch_y})
+                #print(a)
+            print("Epoch {}: Training Loss = {}, Training Accuracy = {}".format(epoch, c, session.run(accuracy, feed_dict={X: train_x, Y: train_y})))
