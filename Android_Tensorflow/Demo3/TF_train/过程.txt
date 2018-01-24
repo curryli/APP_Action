@@ -1,0 +1,28 @@
+运行TF_motion4.py,
+再运行save_pb.py
+
+生成的optimized_tfdroid.pb 拷贝到
+
+TFDroid-master\app\src\main\assets
+文件夹下即可
+
+ 
+注意，在TF_motion4.py中，
+X = tf.placeholder(tf.float32, shape=[None,input_height,input_width,num_channels],name="I")
+
+由于CNN 接受的输入类型是[-1, input_height,input_width,num_channels]
+我们训练的时候其实是每一百条数据拼成input_height*input_width*num_channels三维数组做训练的。
+后面我们加了这句x_Arr = tf.reshape(X, [-1, input_height,input_width,num_channels]) ，其实等于没变。
+
+
+不过，在安卓端，inferenceInterface.fillNodeFloat(INPUT_NODE, new int[]{1, Height, Width, Channel}, inputFloats);
+这一句中，inputFloats类型只能是一维浮点类型。
+所以，我们定义float[] inputFloats = new float[Height*Width*Channel];
+这样，在运行inference的时候，就需要有这样一个tf.reshape操作把它转换为 [-1, input_height,input_width,num_channels]格式的tensor。
+
+
+http://www.zhimengzhe.com/Androidkaifa/298339.html
+https://www.jianshu.com/p/1168384edc1e
+
+其实，inferenceInterface.fillNodeFloat不仅能传输入，其他tf.placeholder定义的都可以传，只不过在安卓端都是以float[]显示的，即使只有一个数字
+ //inferenceInterface.fillNodeFloat(KEEP_PROB_NODE,new int[]{1},new float[]{1.0f});

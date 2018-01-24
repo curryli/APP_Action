@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0cb9adba-f5f7-4ed3-bb58-77957eb9a50f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo1/TFDroid/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/Android_Tensorflow/Demo1/TFDroid/.idea/caches/build_file_checksums.ser" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo3/ANA_TF/app/src/main/java/com/lxr/ana_tf/SecondActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion_label.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo3/labeled_motion.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo3/reshape_seq.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo3/save_pb.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo3/过程.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidActions/Acc_save/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/AndroidActions/Acc_save/.idea/caches/build_file_checksums.ser" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo3/ANA_TF/app/src/main/java/com/lxr/ana_tf/MainActivity.java" afterPath="$PROJECT_DIR$/Android_Tensorflow/Demo3/ANA_TF/app/src/main/java/com/lxr/ana_tf/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidActions/Acc_save/.idea/misc.xml" afterPath="$PROJECT_DIR$/AndroidActions/Acc_save/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android_Tensorflow/Demo1/TFDroid/.idea/misc.xml" afterPath="$PROJECT_DIR$/Android_Tensorflow/Demo1/TFDroid/.idea/misc.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,14 +22,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="show_mostion.py" pinned="false" current-in-tab="true">
-        <entry file="file://D:/无感知身份认证/数据/50Hz/show_mostion.py">
+      <file leaf-file-name="TF_motion_sotmax.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Android_Tensorflow/Demo3/MLP_train/TF_motion_sotmax.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="24" column="4" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
-              <folding>
-                <element signature="e#24#43#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-1062">
+              <caret line="52" column="55" lean-forward="false" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="55" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -49,6 +53,11 @@
       <find>num_hidden</find>
       <find>test_x</find>
       <find>session</find>
+      <find>tr(seg_data[&quot;std&quot;</find>
+      <find>STATUS</find>
+      <find>relu</find>
+      <find>test_y</find>
+      <find>in</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -86,13 +95,19 @@
         <option value="D:/无感知身份认证/数据/50Hz/save_pb.py" />
         <option value="D:/无感知身份认证/数据/50Hz/TF_motion4.py" />
         <option value="$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion4.py" />
-        <option value="$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion_label.py" />
         <option value="D:/无感知身份认证/数据/50Hz/show_mostion.py" />
+        <option value="D:/无感知身份认证/数据/50Hz/FeatureEngineer.py" />
+        <option value="D:/无感知身份认证/数据/50Hz/TF_motion_sotmax.py" />
+        <option value="$PROJECT_DIR$/Android_Tensorflow/Demo3/FeatureEngineer.py" />
+        <option value="$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion_label.py" />
+        <option value="$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion_sotmax.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="840" />
+    <option name="x" value="390" />
+    <option name="y" value="-16" />
+    <option name="width" value="1427" />
     <option name="height" value="1010" />
   </component>
   <component name="ProjectView">
@@ -110,6 +125,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -121,7 +137,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -140,7 +155,41 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.show_mostion (1)">
+  <component name="RunManager" selected="Python.FeatureEngineer">
+    <configuration name="FeatureEngineer (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="D:/无感知身份认证/数据/不同行为" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="APP_Action" />
+      <option name="SCRIPT_NAME" value="D:/无感知身份认证/数据/不同行为/FeatureEngineer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="FeatureEngineer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="D:/无感知身份认证/数据/50Hz" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="APP_Action" />
+      <option name="SCRIPT_NAME" value="D:/无感知身份认证/数据/50Hz/FeatureEngineer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <configuration name="TF_classify_p3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -154,40 +203,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="APP_Action" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Identify_Models/TF_classify_p3.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
-    <configuration name="reshape_seq" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Identify_Models" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="APP_Action" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Identify_Models/reshape_seq.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
-    <configuration name="reshape_seq_fast" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Identify_Models" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="APP_Action" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Identify_Models/reshape_seq_fast.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -228,18 +243,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.TF_classify_p3" />
-      <item index="1" class="java.lang.String" itemvalue="Python.reshape_seq_fast" />
-      <item index="2" class="java.lang.String" itemvalue="Python.reshape_seq" />
-      <item index="3" class="java.lang.String" itemvalue="Python.test (1)" />
-      <item index="4" class="java.lang.String" itemvalue="Python.show_mostion (1)" />
+      <item index="1" class="java.lang.String" itemvalue="Python.test (1)" />
+      <item index="2" class="java.lang.String" itemvalue="Python.show_mostion (1)" />
+      <item index="3" class="java.lang.String" itemvalue="Python.FeatureEngineer" />
+      <item index="4" class="java.lang.String" itemvalue="Python.FeatureEngineer (1)" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.show_mostion (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Python.TF_classify_p3" />
-        <item index="3" class="java.lang.String" itemvalue="Python.reshape_seq" />
-        <item index="4" class="java.lang.String" itemvalue="Python.reshape_seq_fast" />
+        <item index="0" class="java.lang.String" itemvalue="Python.FeatureEngineer" />
+        <item index="1" class="java.lang.String" itemvalue="Python.FeatureEngineer (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.show_mostion (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.test (1)" />
+        <item index="4" class="java.lang.String" itemvalue="Python.TF_classify_p3" />
       </list>
     </recent_temporary>
   </component>
@@ -258,17 +273,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.119642854" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21967213" sideWeight="0.5089286" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21967213" sideWeight="0.49107143" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21967213" sideWeight="0.5113095" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21967213" sideWeight="0.48869047" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -289,26 +305,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://D:/LHTZ/investment/量化投资以Python为工具_数据代码/part 3/019/019.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/无感知身份认证/数据/data_diff/different_shape/compare_col.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/无感知身份认证/数据/compare_trend/compare_between_person.py" />
-    <entry file="file://D:/无感知身份认证/数据/compare_trend/compare_inside_person.py" />
-    <entry file="file://D:/无感知身份认证/数据/compare_trend/compare_all.py" />
-    <entry file="file://D:/无感知身份认证/数据/a/TouchTrend.py" />
-    <entry file="file://D:/无感知身份认证/数据/TouchTrend.py" />
-    <entry file="file://D:/无感知身份认证/数据/TouchTrend.py" />
     <entry file="file://D:/无感知身份认证/数据/a/TouchTrend.py" />
     <entry file="file://D:/无感知身份认证/数据/compare/TouchTrend.py" />
     <entry file="file://D:/无感知身份认证/数据/compare/compare.py" />
@@ -381,13 +377,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
           <caret line="83" column="62" lean-forward="false" selection-start-line="83" selection-start-column="62" selection-end-line="83" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/无感知身份认证/数据/不同行为/FeatureEngineer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="874">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -479,13 +468,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/无感知身份认证/数据/50Hz/TF_motion4.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/无感知身份认证/数据/50Hz/save_pb.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -494,21 +476,85 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion4.py" />
+    <entry file="file://D:/无感知身份认证/数据/50Hz/show_mostion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="37" column="26" lean-forward="false" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/无感知身份认证/数据/不同行为/FeatureEngineer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-143">
+          <caret line="20" column="66" lean-forward="true" selection-start-line="20" selection-start-column="66" selection-end-line="20" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Android_TF/testTF/TF_DNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="34" column="26" lean-forward="false" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Android_TF/testTF/TF_sotmax.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/无感知身份认证/数据/50Hz/TF_sotmax.py" />
+    <entry file="file://D:/无感知身份认证/数据/50Hz/TF_motion_sotmax.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="17" column="47" lean-forward="false" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/无感知身份认证/数据/50Hz/FeatureEngineer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="4" column="38" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/无感知身份认证/数据/50Hz/TF_motion4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion_label.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="164" column="47" lean-forward="false" selection-start-line="164" selection-start-column="47" selection-end-line="164" selection-end-column="47" />
+        <state relative-caret-position="316">
+          <caret line="70" column="2" lean-forward="false" selection-start-line="70" selection-start-column="2" selection-end-line="71" selection-end-column="54" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/无感知身份认证/数据/50Hz/show_mostion.py">
+    <entry file="file://$PROJECT_DIR$/Android_Tensorflow/Demo3/FeatureEngineer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="24" column="4" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
-          <folding>
-            <element signature="e#24#43#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-480">
+          <caret line="16" column="25" lean-forward="false" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Android_Tensorflow/Demo3/TF_motion_sotmax.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Android_Tensorflow/Demo3/MLP_train/TF_motion_sotmax.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1062">
+          <caret line="52" column="55" lean-forward="false" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="55" />
+          <folding />
         </state>
       </provider>
     </entry>

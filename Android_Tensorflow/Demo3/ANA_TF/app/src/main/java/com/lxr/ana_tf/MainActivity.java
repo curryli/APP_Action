@@ -22,9 +22,16 @@ import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.lxr.ana_tf.Utils.MathUtil.getMax;
+import static com.lxr.ana_tf.Utils.MathUtil.getMean;
+import static com.lxr.ana_tf.Utils.MathUtil.getMin;
+import static com.lxr.ana_tf.Utils.MathUtil.getStd;
+import static com.lxr.ana_tf.Utils.MathUtil.toFloatArray;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         SensorEventListener {
@@ -42,17 +49,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int mCounter = 0;
 
 
-    private static final String MODEL_FILE = "file:///android_asset/optimized_tfdroid.pb";
+    //private static final String MODEL_FILE = "file:///android_asset/optimized_tfdroid.pb";
+    private static final String MODEL_FILE = "file:///android_asset/optimized_softmax.pb";
     private static final String INPUT_NODE = "I:0";
     private static final String OUTPUT_NODE = "O:0";
-    private static final int Height = 1;
-    private static final int Width = 100;
-    private static final int Channel = 3;
-    private static final int goal_size = Height*Width*Channel;
 
     HashMap<Integer,String> category_Map = new HashMap<Integer,String> ();
 
-    private static ArrayList<Float> sens_Buff = new ArrayList<Float>();
+    private final int N_SAMPLES = 100;
+    private static ArrayList<Float> grav_max;
+    private static ArrayList<Float> grav_min;
+    private static ArrayList<Float> grav_std;
+    private static ArrayList<Float> grav_mean;
+    private static ArrayList<Float> grav_buff;
+
 
     private static String curr_stat = "None";
 
@@ -83,11 +93,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);  //屏幕关闭以后，重新注册采集器
         registerReceiver(mReceiver, filter);
 
-
         category_Map.put(0,"跑步");
         category_Map.put(1,"站立");
         category_Map.put(2,"静止");
         category_Map.put(3,"走路");
+
+        grav_max = new ArrayList<Float>();
+        grav_min = new ArrayList<Float>();
+        grav_std = new ArrayList<Float>();
+        grav_mean = new ArrayList<Float>();
+        grav_buff = new ArrayList<Float>();
     }
 
     private void bindViews() {
@@ -109,39 +124,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!processState) {
             return;
         }
+        activityPrediction();
 
-        if(sens_Buff.size()<goal_size) {
-            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                //加速度感应器
-                float x_acc = event.values[0];
-                float y_acc = event.values[1];
-                float z_acc = event.values[2];
-                sens_Buff.add(x_acc);
-                sens_Buff.add(y_acc);
-                sens_Buff.add(z_acc);
-            }
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            //加速度感应器
+            acc_info.setText("x:" + event.values[0] + "\ny:" + event.values[1] + "\nz:" + event.values[2]);    //读数更新
+            float gravity = (float) Math.sqrt(Math.pow(event.values[0], 2)+Math.pow(event.values[1], 2)+Math.pow(event.values[2], 2));
+            grav_buff.add(gravity);
         }
-        else{
-            float[] inputFloats = new float[sens_Buff.size()];
-            for (int i=0; i<sens_Buff.size(); i++) {
-                inputFloats[i] = sens_Buff.get(i);
-            }
 
-            inferenceInterface.fillNodeFloat(INPUT_NODE, new int[]{1, Height, Width, Channel}, inputFloats);
+    }
 
-            inferenceInterface.runInference(new String[] {OUTPUT_NODE});
+    private void activityPrediction()
+    {
+        if(grav_buff.size()==N_SAMPLES) {
+            float g_mean = getMean(toFloatArray(grav_buff));
+            float g_max = getMax(toFloatArray(grav_buff));
+            float g_min = getMin(toFloatArray(grav_buff));
+            float g_std = getStd(toFloatArray(grav_buff));
 
-            float[] resu = {0,0,0,0};
+            ArrayList<Float> input_signal = new  ArrayList<Float>();
+            input_signal.add(g_mean);
+            input_signal.add(g_max);
+            input_signal.add(g_min);
+            input_signal.add(g_std);
+
+            Log.e("Sensors", input_signal.get(0).toString() + " " + input_signal.get(1).toString() + " " + input_signal.get(2).toString() + " " + input_signal.get(3).toString());
+
+            inferenceInterface.fillNodeFloat(INPUT_NODE, new int[]{1, input_signal.size()}, toFloatArray(input_signal));
+
+            inferenceInterface.runInference(new String[]{OUTPUT_NODE});
+
+            float[] resu = {0, 0, 0, 0};
             inferenceInterface.readNodeFloat(OUTPUT_NODE, resu);
 
             int idx_max = getMaxIndex(resu);
             curr_stat = category_Map.get(idx_max);
             model_tag.setText("当前行为:" + curr_stat);
-            sens_Buff.clear();
 
+            grav_mean.clear();
+            grav_max.clear();
+            grav_min.clear();
+            grav_std.clear();
+
+            grav_buff.clear();
+            input_signal.clear();
         }
-
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -173,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_clear:
                 Log.e("Sensors", "清除Acc_save目录下的所有文件");
-                FileUtil.clear_Acc();
                 break;
         }
     }
@@ -220,8 +249,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         processState = process;
     }
-
-
 
     @Override
     protected void onDestroy() {
