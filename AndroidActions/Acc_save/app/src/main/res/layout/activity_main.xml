@@ -9,9 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="加速度采集"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/acc_info1"
@@ -42,7 +42,7 @@
         <Button
             android:id="@+id/btn_sitting"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:text="坐着"
             android:textSize="20sp" />
@@ -50,7 +50,7 @@
         <Button
             android:id="@+id/btn_walking"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:text="行走"
             android:textSize="20sp" />
@@ -58,7 +58,7 @@
         <Button
             android:id="@+id/btn_upstairs"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:text="上楼"
             android:textSize="20sp" />
@@ -72,7 +72,7 @@
         <Button
             android:id="@+id/btn_downstairs"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:text="下楼"
             android:textSize="20sp" />
@@ -80,7 +80,7 @@
         <Button
             android:id="@+id/btn_jogging"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:text="慢跑"
             android:textSize="20sp" />
@@ -88,7 +88,7 @@
         <Button
             android:id="@+id/btn_standing"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:text="站立"
             android:textSize="20sp" />
@@ -103,20 +103,20 @@
         android:paddingTop="20dp"
         android:text="计时:0秒"
         android:textColor="#DE5347"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/btn_stop"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="54dp"
         android:text="停止"
         android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_clear"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="54dp"
         android:text="清除数据"
         android:textSize="20sp" />
 

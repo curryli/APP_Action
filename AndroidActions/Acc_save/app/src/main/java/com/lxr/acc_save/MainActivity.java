@@ -1,7 +1,6 @@
 package com.lxr.acc_save;
 //http://blog.csdn.net/bin470398393/article/details/78918921
 
-import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +11,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ActionBarContainer;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -27,11 +26,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        SensorEventListener {
+public class MainActivity extends AppCompatActivity implements View.OnLongClickListener, SensorEventListener {
+    private static final String TAG = "MainActivity";
 
-    private SensorManager sManager;
+    private SensorManager mSensorManager;
     private Sensor mSensorAccelerometer;
+    private PowerManager.WakeLock mWakeLock;
     private Context mContext;
     private TextView acc_info;
     private TextView acc_info1;
@@ -53,13 +53,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bindViews();
 
-        // 获取传感器管理器
-        sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mSensorAccelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sManager.registerListener(this, mSensorAccelerometer, SampleRate.get_RATE_50Hz());
+        PowerManager manager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);// CPU保存运行
 
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);  //屏幕关闭以后，重新注册采集器
+
+        // 获取传感器管理器
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSensorAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mSensorManager.registerListener(this, mSensorAccelerometer, SampleRate.get_RATE_50Hz());
+
+
+
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mReceiver, filter);
+
     }
 
     private void bindViews() {
@@ -67,75 +76,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         acc_info1 = (TextView) findViewById(R.id.acc_info1);
         acc_info2 = (TextView) findViewById(R.id.acc_info2);
 
-        findViewById(R.id.btn_sitting).setOnClickListener(this);
-        findViewById(R.id.btn_walking).setOnClickListener(this);
-        findViewById(R.id.btn_upstairs).setOnClickListener(this);
-        findViewById(R.id.btn_downstairs).setOnClickListener(this);
-        findViewById(R.id.btn_jogging).setOnClickListener(this);
-        findViewById(R.id.btn_standing).setOnClickListener(this);
+        findViewById(R.id.btn_sitting).setOnLongClickListener(this);
+        findViewById(R.id.btn_walking).setOnLongClickListener(this);
+        findViewById(R.id.btn_upstairs).setOnLongClickListener(this);
+        findViewById(R.id.btn_downstairs).setOnLongClickListener(this);
+        findViewById(R.id.btn_jogging).setOnLongClickListener(this);
+        findViewById(R.id.btn_standing).setOnLongClickListener(this);
 
-        findViewById(R.id.btn_stop).setOnClickListener(this);
-        findViewById(R.id.btn_clear).setOnClickListener(this);
-    }
-
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        //保证采集可控
-        if (!processState) {
-            return;
-        }
-
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            //加速度感应器
-            float x_acc = event.values[0];
-            float y_acc = event.values[1];
-            float z_acc = event.values[2];
-            acc_info.setText("x:" + x_acc + "\ny:" + y_acc + "\nz:" + z_acc);    //读数更新
-            Log.e("Sensors", "Accelerometer: x,y,z=" + x_acc + "," + y_acc + "," + z_acc);
-            SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
-            FileUtil.writeToFile(x_acc + "," + y_acc + "," + z_acc + "," + df.format(new Date()));
-        }
-
+        findViewById(R.id.btn_stop).setOnLongClickListener(this);
+        findViewById(R.id.btn_clear).setOnLongClickListener(this);
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
-
-    @Override
-    public void onClick(View v) {
+    public boolean onLongClick(View view) {    //长按触发
         enableButtons();
-        switch (v.getId()) {
+        switch (view.getId()) {
             case R.id.btn_sitting:
                 updateStatus(true);
                 acc_info1.setText("当前采集行为:坐着");
-                FileUtil.set_save_file("Sitting");
+                FileUtil.set_save_file("Acc_sitting");
                 break;
             case R.id.btn_walking:
                 updateStatus(true);
                 acc_info1.setText("当前采集状态:行走");
-                FileUtil.set_save_file("Walking");
+                FileUtil.set_save_file("Acc_walking");
                 break;
             case R.id.btn_upstairs:
                 updateStatus(true);
                 acc_info1.setText("当前采集状态:上楼");
-                FileUtil.set_save_file("Upstairs");
+                FileUtil.set_save_file("Acc_upstairs");
                 break;
             case R.id.btn_downstairs:
                 updateStatus(true);
                 acc_info1.setText("当前采集状态:下楼");
-                FileUtil.set_save_file("Downstairs");
+                FileUtil.set_save_file("Acc_downstairs");
                 break;
             case R.id.btn_jogging:
                 updateStatus(true);
                 acc_info1.setText("当前采集状态:慢跑");
-                FileUtil.set_save_file("Jogging");
+                FileUtil.set_save_file("Acc_jogging");
                 break;
             case R.id.btn_standing:
                 updateStatus(true);
                 acc_info1.setText("当前采集状态:站立");
-                FileUtil.set_save_file("Standing");
+                FileUtil.set_save_file("Acc_standing");
                 break;
             case R.id.btn_stop:
                 updateStatus(false);
@@ -147,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FileUtil.clear_Acc();
                 break;
         }
+        return false;
     }
 
     private void enableButtons() {
@@ -156,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_downstairs).setEnabled(false);
         findViewById(R.id.btn_jogging).setEnabled(false);
         findViewById(R.id.btn_standing).setEnabled(false);
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -201,34 +187,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         processState = process;
     }
 
+    public BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
-    //向量求模
-    public double magnitude(float x, float y, float z) {
-        double magnitude = 0;
-        magnitude = Math.sqrt(x * x + y * y + z * z);
-        return magnitude;
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sManager.unregisterListener(this, mSensorAccelerometer);
-        unregisterReceiver(mReceiver);
-    }
-
-    private void refreshListener(){
-        sManager.unregisterListener(this, mSensorAccelerometer);
-        sManager.registerListener(this, mSensorAccelerometer, SampleRate.get_RATE_50Hz());
-    }
-
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)){
-                refreshListener();
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+                refreshListener ();
             }
         }
     };
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        //保证采集可控
+        if (!processState) {
+            return;
+        }
+
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            //加速度感应器
+            float x_acc = sensorEvent.values[0];
+            float y_acc = sensorEvent.values[1];
+            float z_acc = sensorEvent.values[2];
+            acc_info.setText("x:" + x_acc + "\ny:" + y_acc + "\nz:" + z_acc);    //读数更新
+            Log.e("Sensors", "Accelerometer: x,y,z=" + x_acc + "," + y_acc + "," + z_acc);
+            SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
+            FileUtil.writeToFile(x_acc + "," + y_acc + "," + z_acc + "," + df.format(new Date()));
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSensorManager.unregisterListener(this);
+        unregisterReceiver(mReceiver);
+    }
+
+    public void refreshListener(){
+        mSensorManager.unregisterListener(this);
+        mSensorManager.registerListener(this, mSensorAccelerometer, SampleRate.get_RATE_50Hz());
+    }
 
 }
