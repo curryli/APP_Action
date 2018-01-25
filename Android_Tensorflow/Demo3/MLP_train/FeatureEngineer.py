@@ -11,7 +11,7 @@ def preprocess(file_dir, Seg_granularity):
         for line in f:
             raw_list = line.strip().split(',')
             index = index + 1
-            status  = raw_list[3]  #行为类型 4类
+            status  = raw_list[3]   
             acc_x = float(raw_list[0])
             acc_y = float(raw_list[1])
             acc_z = float(raw_list[2])
