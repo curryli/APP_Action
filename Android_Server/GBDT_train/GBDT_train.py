@@ -39,10 +39,9 @@ cm1=confusion_matrix(y_test,pred)
 print  cm1
 
 
-joblib.dump(clf, "GBDT_trained.m")  
-# [[111   0   2   0   0  15]
-#  [  0 758  35  38  25   0]
-#  [  0  74 125  34  14   1]
-#  [  0  77  62  73   7   0]
-#  [  0  12  11   1 617   0]
-#  [ 13   0   1   1   0  83]]
+joblib.dump(clf, "train_model.m")
+
+# [[33  0  0  7]
+#  [ 0 55  0  0]
+#  [ 0  0 61  0]
+#  [ 3  0  0 49]]

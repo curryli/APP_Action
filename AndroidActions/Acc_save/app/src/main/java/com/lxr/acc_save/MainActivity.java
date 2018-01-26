@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
                 updateStatus(false);
                 acc_info.setText("x:None\ny:None\nz:None");
                 acc_info1.setText("当前采集行为:NONE");
-                mWakeLock.release();
+                if(mWakeLock.isHeld())
+                    mWakeLock.release();
                 break;
             case R.id.btn_clear:
                 Log.e("Sensors", "清除Acc_save目录下的所有文件");

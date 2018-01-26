@@ -10,21 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="加速度采集"
+        android:text="行为分析程序"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/acc_info1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="当前采集行为:NONE"
-        android:textColor="#DE5347"
-        android:textSize="20sp"
-        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/acc_info"
+        android:id="@+id/sensor_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -34,68 +25,27 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_start"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="54dp"
+        android:text="开始"
+        android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btn_sitting"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:text="坐着"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btn_walking"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:text="行走"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btn_upstairs"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:text="上楼"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_downstairs"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:text="下楼"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btn_jogging"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:text="慢跑"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btn_standing"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:text="站立"
-            android:textSize="20sp" />
-    </LinearLayout>
 
     <TextView
-        android:id="@+id/acc_info2"
+        android:id="@+id/current_stat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="当前采集行为:NONE"
+        android:textColor="#DE5347"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

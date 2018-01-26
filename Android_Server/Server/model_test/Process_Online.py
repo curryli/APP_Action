@@ -17,10 +17,18 @@ import FE_Online as feo
  
 
 if __name__ == "__main__":
-    gravity_data = feo.File2Arr("test_one_seg.csv")
-    Seg_num = 100
-    df_X = feo.preprocess(gravity_data, Seg_num)
-    clf = joblib.load("GBDT_trained.m")
+    # gravity_data = feo.File2Arr("test_one_seg.csv")
+    # Seg_num = 100
+    # df_X = feo.preprocess(gravity_data, Seg_num)
+    # print "Feature:"
+    # print df_X
+    # print "Stat:"
+    clf = joblib.load("train_model.m")
+
+    statistics_data = [[9.831092,9.873051,9.79706,0.014164]]
+    df_X = pd.DataFrame(statistics_data, columns=['mean', 'max', 'min', 'std'])
+
+
     pred = clf.predict(df_X)
     print pred
     # for i in pred:

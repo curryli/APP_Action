@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lxr.acc_class.R;
 import com.lxr.acc_save.Utils.FileUtil;
 import com.lxr.acc_save.Utils.JsonUtil;
 import com.lxr.acc_save.Utils.OkHttpUtils;
@@ -43,9 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     private Sensor mSensorAccelerometer;
     private PowerManager.WakeLock mWakeLock;
     private Context mContext;
-    private TextView acc_info;
-    private TextView acc_info1;
-    private TextView acc_info2;
+    private TextView sensor_data;
+    private TextView current_stat;
+    private TextView clock;
+
 
     private boolean processState = false;   //标记当前是否已经在计步
     private Timer mTimer;
@@ -83,17 +85,11 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     }
 
     private void bindViews() {
-        acc_info = (TextView) findViewById(R.id.acc_info);
-        acc_info1 = (TextView) findViewById(R.id.acc_info1);
-        acc_info2 = (TextView) findViewById(R.id.acc_info2);
+        sensor_data = (TextView) findViewById(R.id.sensor_data);
+        current_stat = (TextView) findViewById(R.id.current_stat);
+        clock = (TextView) findViewById(R.id.clock);
 
-        findViewById(R.id.btn_sitting).setOnLongClickListener(this);
-        findViewById(R.id.btn_walking).setOnLongClickListener(this);
-        findViewById(R.id.btn_upstairs).setOnLongClickListener(this);
-        findViewById(R.id.btn_downstairs).setOnLongClickListener(this);
-        findViewById(R.id.btn_jogging).setOnLongClickListener(this);
-        findViewById(R.id.btn_standing).setOnLongClickListener(this);
-
+        findViewById(R.id.btn_start).setOnLongClickListener(this);
         findViewById(R.id.btn_stop).setOnLongClickListener(this);
         findViewById(R.id.btn_clear).setOnLongClickListener(this);
 
@@ -103,75 +99,38 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     public boolean onLongClick(View view) {
         enableButtons();
         switch (view.getId()) {
-            case R.id.btn_sitting:
+            case R.id.btn_start:
                 updateStatus(true);
-                acc_info1.setText("当前采集行为:坐着");
-                FileUtil.set_save_file("Acc_sitting");
-                break;
-            case R.id.btn_walking:
-                updateStatus(true);
-                acc_info1.setText("当前采集状态:行走");
-                FileUtil.set_save_file("Acc_walking");
-                break;
-            case R.id.btn_upstairs:
-                updateStatus(true);
-                acc_info1.setText("当前采集状态:上楼");
-                FileUtil.set_save_file("Acc_upstairs");
-                break;
-            case R.id.btn_downstairs:
-                updateStatus(true);
-                acc_info1.setText("当前采集状态:下楼");
-                FileUtil.set_save_file("Acc_downstairs");
-                break;
-            case R.id.btn_jogging:
-                updateStatus(true);
-                acc_info1.setText("当前采集状态:慢跑");
-                FileUtil.set_save_file("Acc_jogging");
-                break;
-            case R.id.btn_standing:
-                updateStatus(true);
-                acc_info1.setText("当前采集状态:站立");
-                FileUtil.set_save_file("Acc_standing");
+
                 break;
             case R.id.btn_stop:
                 updateStatus(false);
-                acc_info.setText("x:None\ny:None\nz:None");
-                acc_info1.setText("当前采集行为:NONE");
+                sensor_data.setText("x:None\ny:None\nz:None");
                 if (mWakeLock.isHeld()) {
                     mWakeLock.release();
                 }
                 break;
             case R.id.btn_clear:
                 Log.e("Sensors", "清除Acc_save目录下的所有文件");
-                FileUtil.clear_Acc();
                 break;
         }
         return false;
     }
 
     private void enableButtons() {
-        findViewById(R.id.btn_sitting).setEnabled(false);
-        findViewById(R.id.btn_walking).setEnabled(false);
-        findViewById(R.id.btn_upstairs).setEnabled(false);
-        findViewById(R.id.btn_downstairs).setEnabled(false);
-        findViewById(R.id.btn_jogging).setEnabled(false);
-        findViewById(R.id.btn_standing).setEnabled(false);
+        findViewById(R.id.btn_start).setEnabled(false);
+
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                findViewById(R.id.btn_sitting).setEnabled(true);
-                findViewById(R.id.btn_walking).setEnabled(true);
-                findViewById(R.id.btn_upstairs).setEnabled(true);
-                findViewById(R.id.btn_downstairs).setEnabled(true);
-                findViewById(R.id.btn_jogging).setEnabled(true);
-                findViewById(R.id.btn_standing).setEnabled(true);
+                findViewById(R.id.btn_start).setEnabled(true);
             }
         }, 1000);
     }
 
     private void updateStatus(boolean process) {
-        acc_info2.setText("计时: 0 秒");
+        clock.setText("计时: 0 秒");
         if (mCounter > 0) {
             mCounter = 0;
             if (mTimer != null) {
@@ -192,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
                         @Override
                         public void run() {
                             mCounter++;
-                            acc_info2.setText("计时: " + mCounter + " 秒");
+                            clock.setText("计时: " + mCounter + " 秒");
                         }
                     });
                 }
@@ -229,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
             float x_acc = sensorEvent.values[0];
             float y_acc = sensorEvent.values[1];
             float z_acc = sensorEvent.values[2];
-            acc_info.setText("x:" + x_acc + "\ny:" + y_acc + "\nz:" + z_acc);    //读数更新
+            sensor_data.setText("x:" + x_acc + "\ny:" + y_acc + "\nz:" + z_acc);    //读数更新
             Log.e("Sensors", "Accelerometer: x,y,z=" + x_acc + "," + y_acc + "," + z_acc);
             SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss:SSS");
             //FileUtil.writeToFile(x_acc + "," + y_acc + "," + z_acc + "," + df.format(new Date()));
@@ -289,13 +248,13 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
                     String msg = JsonUtil.getResultMsg(str);
                     String tempBehavior = "UNKNOWN";
                     if (msg.equals("0")){
-                        tempBehavior = "跑步";
+                        tempBehavior = "正在跑步";
                     } else if (msg.equals("1")){
-                        tempBehavior = "站立";
+                        tempBehavior = "手持操作";
                     } else if (msg.equals("2")){
-                        tempBehavior = "静止";
+                        tempBehavior = "完全静止";
                     } else if (msg.equals("3")){
-                        tempBehavior = "走路";
+                        tempBehavior = "正在走路";
                     } else {
                         tempBehavior = "UNKNOWN";
                     }
@@ -304,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
                         @Override
                         public void run() {
                             Toast.makeText(MainActivity.this, behavior , Toast.LENGTH_SHORT).show();
+                            current_stat.setText("当前状态：" + behavior);
                         }
                     });
                 }
